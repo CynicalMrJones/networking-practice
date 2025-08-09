@@ -28,6 +28,11 @@ int main(){
         return -1;
     }
 
-    printf("Done and Done bubba");
+    char buf[20];
+    memset(buf, 0, 20);
+    int recieve = recv(sock, buf, 20, 0);
+    sleep(5);
+    printf("%s\n", buf);
+    printf("Done and done bubba\n");
     close(sock);
 }

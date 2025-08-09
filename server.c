@@ -32,7 +32,9 @@ int main(){
     
     printf("Now Accepting new connections\n");
     int new_socket = accept(socketfd, &address, (socklen_t*)sizeof(address));
-    printf("connection accepted\n");
+    char buf[20]  = "Hello, World server!";
+    int sendt = send(socketfd, &buf, 20, 0);
+    printf("%d\n", sendt);
 
     close(new_socket);
     close(socketfd);
