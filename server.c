@@ -6,7 +6,7 @@
 #include <unistd.h>
 
 int main(){
-    struct socket_addr{
+    struct socket_in{
         int sa_family;
         char data;
     };
@@ -21,20 +21,30 @@ int main(){
     memset(&address, 0, sizeof(address));
     address.sin_family = AF_INET;
     address.sin_addr.s_addr = INADDR_ANY;
-    address.sin_port = htons(8690);
+    address.sin_port = htons(8888);
     
-    if (bind(socketfd, &address, sizeof(address)) < 0){
+    if (bind(socketfd, (struct sockaddr*)&address, sizeof(address)) < 0){
         perror("whoops couldn't bind\n");
         return -1;
     }
 
-    listen(socketfd, 5);
+    if (listen(socketfd, 5) < 0){
+        perror("Could not listen\n");
+        return -1;
+    }
     
     printf("Now Accepting new connections\n");
-    int new_socket = accept(socketfd, &address, (socklen_t*)sizeof(address));
-    char buf[20]  = "Hello, World server!";
-    int sendt = send(socketfd, &buf, 20, 0);
-    printf("%d\n", sendt);
+
+    struct sockaddr_in client_address;
+    socklen_t client_len = sizeof(client_address);
+    int new_socket = accept(socketfd, (struct sockaddr *)&client_address, &client_len);
+
+    if (new_socket < 0){
+        perror("Failed to accept\n");
+        return -1;
+    }
+    char buf[19]  = "Hello, World server";
+    send(new_socket, buf, 19, 0);
 
     close(new_socket);
     close(socketfd);
