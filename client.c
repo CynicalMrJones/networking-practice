@@ -5,7 +5,7 @@
 #include <unistd.h>
 #include <string.h>
 
-int main(){
+int main(int argc, char* argv[]){
     
     int sock = 0;
     struct sockaddr_in serv_addr;
@@ -28,7 +28,8 @@ int main(){
         return -1;
     }
 
-    char buf[20];
+    char buf[22];
+    send(sock, argv[1], sizeof(char[1]), 0);
     int recieve = recv(sock, buf, sizeof(buf) - 1, 0);
     if (recieve < 0){
         perror("Failed to recieve\n");
