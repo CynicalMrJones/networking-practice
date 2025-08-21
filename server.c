@@ -1,5 +1,6 @@
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <sys/socket.h>
 #include <string.h>
 #include <netinet/in.h>
@@ -40,11 +41,29 @@ int main(){
             perror("Failed to accept\n");
             return -1;
         }
-        char buf[19]  = "Hello, World server";
-        send(new_socket, buf, 19, 0);
 
-        close(new_socket);
-        printf("Served one client\n");
+        //message ini
+        char command[1];
+        char buf[21] = "Hello, World server 1";
+        char buf2[21] = "Hello, World server 2";
+        int recieve = recv(new_socket, &command, sizeof(char[1]), 0);
+        printf("Recieve code: %d\n", recieve);
+        printf("Command code: %d\n", atoi(command));
+
+        //command parsing
+        if (atoi(command) == 1){
+            send(new_socket, buf, 21, 0);
+            printf("Served one client\n");
+        }
+        else if(atoi(command) == 2){
+            send(new_socket, buf2, 21, 0);
+            printf("Served one client\n");
+        }
+        else{
+            printf("Invalid command number\n");
+            printf("\n");
+            close(new_socket);
+        }
     }
     close(socketfd);
 }
