@@ -75,6 +75,11 @@ int main(){
             send(new_socket, buf2, 21, 0);
             printf("Served one client\n");
         }
+        else if(atoi(command) == 2){
+            printf("Closing server\n");
+            close(new_socket);
+            break;
+        }
         else{
             printf("Invalid command number\n");
             printf("\n");
