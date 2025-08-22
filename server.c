@@ -5,6 +5,20 @@
 #include <string.h>
 #include <netinet/in.h>
 #include <unistd.h>
+#include <math.h>
+#include <sys/statvfs.h>
+
+void get_stats(char *message){
+    struct statvfs Stats;
+
+    if(statvfs("/", &Stats) == -1){
+        printf("Failed to get stats\n");
+    }
+
+    long test = pow(10, 9);
+    long gib = pow(1024, 3);
+    sprintf(message, "Avaliable Free Blocks: %ld\nTotal avaliable: %ld(GB)\nTotal avaliable: %ld(GiB)\n", Stats.f_bavail, ((Stats.f_bavail * Stats.f_frsize) / test), ((Stats.f_bavail * Stats.f_frsize) / gib));
+}
 
 int main(){
     int socketfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -44,15 +58,17 @@ int main(){
 
         //message ini
         char command[1];
+        char message[200];
         char buf[21] = "Hello, World server 1";
         char buf2[21] = "Hello, World server 2";
+        get_stats(message);
         int recieve = recv(new_socket, &command, sizeof(char[1]), 0);
         printf("Recieve code: %d\n", recieve);
         printf("Command code: %d\n", atoi(command));
 
         //command parsing
         if (atoi(command) == 1){
-            send(new_socket, buf, 21, 0);
+            send(new_socket, message, sizeof(message), 0);
             printf("Served one client\n");
         }
         else if(atoi(command) == 2){
