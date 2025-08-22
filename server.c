@@ -10,21 +10,22 @@
 
 /*
  * Potential Feat: Writing output to a file for logging (Research how logging is typically done)
- *           Feat: Alloc memory in get_stats and call free later
  */
 
-void get_stats(char *message){
+char *get_stats(){
     struct statvfs Stats;
 
     if(statvfs("/", &Stats) == -1){
         printf("Failed to get stats\n");
     }
 
+    char *message = (char *)malloc(sizeof(char) * 150);
     long gb = pow(10, 9);
     long gib = pow(1024, 3);
     long total_GB = (Stats.f_bavail * Stats.f_frsize) / gb;
     long total_GiB = (Stats.f_bavail * Stats.f_frsize) / gib;
     sprintf(message, "Avaliable Free Blocks: %ld\nTotal avaliable: %ld(GB)\nTotal avaliable: %ld(GiB)\n", Stats.f_bavail, total_GB , total_GiB);
+    return message;
 }
 
 int main(){
@@ -65,7 +66,6 @@ int main(){
 
         //message ini
         char command[1];
-        char message[200];
         char buf2[21] = "Hello, World server 2";
         int recieve = recv(new_socket, &command, sizeof(char[1]), 0);
         printf("Recieve code: %d\n", recieve);
@@ -73,9 +73,10 @@ int main(){
 
         //command parsing
         if (atoi(command) == 1){
-            get_stats(message);
-            send(new_socket, message, sizeof(message), 0);
+            char *message = get_stats();
+            send(new_socket, message, strlen(message), 0);
             printf("Served one client\n");
+            free(message);
         }
         else if(atoi(command) == 2){
             send(new_socket, buf2, 21, 0);
