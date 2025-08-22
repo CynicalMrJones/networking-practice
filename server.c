@@ -10,6 +10,7 @@
 
 /*
  * Potential Feat: Writing output to a file for logging (Research how logging is typically done)
+ *           Feat: Alloc memory in get_stats and call free later
  */
 
 void get_stats(char *message){
@@ -19,9 +20,9 @@ void get_stats(char *message){
         printf("Failed to get stats\n");
     }
 
-    long test = pow(10, 9);
+    long gb = pow(10, 9);
     long gib = pow(1024, 3);
-    long total_GB = (Stats.f_bavail * Stats.f_frsize) / test;
+    long total_GB = (Stats.f_bavail * Stats.f_frsize) / gb;
     long total_GiB = (Stats.f_bavail * Stats.f_frsize) / gib;
     sprintf(message, "Avaliable Free Blocks: %ld\nTotal avaliable: %ld(GB)\nTotal avaliable: %ld(GiB)\n", Stats.f_bavail, total_GB , total_GiB);
 }

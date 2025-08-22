@@ -9,13 +9,18 @@
  * BUGS: If the client doesnt send a command it fails
  */
 
-int main(int argc, char* argv[]){
+int main(int argc, char** argv){
+
+    if (argc < 2){
+        printf("Need to Give command number\n");
+        return -1;
+    }
     
     int sock = 0;
     struct sockaddr_in serv_addr;
 
     if((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0){
-        printf("\n Socket failed to create\n");
+        printf("\nSocket failed to create\n");
         return -1;
     }
     memset(&serv_addr, 0, sizeof(serv_addr));
@@ -28,7 +33,7 @@ int main(int argc, char* argv[]){
     }
 
     if(connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0){
-        perror("\n connection failed\n");
+        perror("\nConnection failed\n");
         return -1;
     }
 
