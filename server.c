@@ -8,6 +8,10 @@
 #include <math.h>
 #include <sys/statvfs.h>
 
+/*
+ * Potential Feat: Writing output to a file for logging (Research how logging is typically done)
+ */
+
 void get_stats(char *message){
     struct statvfs Stats;
 
@@ -17,7 +21,9 @@ void get_stats(char *message){
 
     long test = pow(10, 9);
     long gib = pow(1024, 3);
-    sprintf(message, "Avaliable Free Blocks: %ld\nTotal avaliable: %ld(GB)\nTotal avaliable: %ld(GiB)\n", Stats.f_bavail, ((Stats.f_bavail * Stats.f_frsize) / test), ((Stats.f_bavail * Stats.f_frsize) / gib));
+    long total_GB = (Stats.f_bavail * Stats.f_frsize) / test;
+    long total_GiB = (Stats.f_bavail * Stats.f_frsize) / gib;
+    sprintf(message, "Avaliable Free Blocks: %ld\nTotal avaliable: %ld(GB)\nTotal avaliable: %ld(GiB)\n", Stats.f_bavail, total_GB , total_GiB);
 }
 
 int main(){
