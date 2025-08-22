@@ -5,6 +5,10 @@
 #include <unistd.h>
 #include <string.h>
 
+/*
+ * BUGS: If the client doesnt send a command it fails
+ */
+
 int main(int argc, char* argv[]){
     
     int sock = 0;
