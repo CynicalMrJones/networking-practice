@@ -59,15 +59,14 @@ int main(){
         //message ini
         char command[1];
         char message[200];
-        char buf[21] = "Hello, World server 1";
         char buf2[21] = "Hello, World server 2";
-        get_stats(message);
         int recieve = recv(new_socket, &command, sizeof(char[1]), 0);
         printf("Recieve code: %d\n", recieve);
         printf("Command code: %d\n", atoi(command));
 
         //command parsing
         if (atoi(command) == 1){
+            get_stats(message);
             send(new_socket, message, sizeof(message), 0);
             printf("Served one client\n");
         }
@@ -75,7 +74,7 @@ int main(){
             send(new_socket, buf2, 21, 0);
             printf("Served one client\n");
         }
-        else if(atoi(command) == 2){
+        else if(atoi(command) == 3){
             printf("Closing server\n");
             close(new_socket);
             break;
