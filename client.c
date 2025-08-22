@@ -28,7 +28,7 @@ int main(int argc, char* argv[]){
         return -1;
     }
 
-    char buf[22];
+    char buf[200];
     send(sock, argv[1], sizeof(char[1]), 0);
     int recieve = recv(sock, buf, sizeof(buf) - 1, 0);
     if (recieve < 0){
@@ -39,7 +39,6 @@ int main(int argc, char* argv[]){
         printf("%d\n", recieve);
     }
     buf[recieve] = '\0';
-    printf("Done and done bubba\n");
     printf("%s\n", buf);
     close(sock);
 }
