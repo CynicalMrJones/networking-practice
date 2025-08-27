@@ -7,9 +7,6 @@
 #include <unistd.h>
 #include <sys/statvfs.h>
 #include "lib/stats.h"
-/*
- * Potential Feat: Writing output to a file for logging (Research how logging is typically done)
- */
 
 
 int main(){
