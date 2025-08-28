@@ -4,10 +4,10 @@
 #include <stdlib.h>
 #include <sys/statvfs.h>
 #include <math.h>
-char *get_stats(){
+char *get_stats(char *path){
     struct statvfs Stats;
 
-    if(statvfs("/", &Stats) == -1){
+    if(statvfs(path, &Stats) == -1){
         printf("Failed to get stats\n");
     }
 
