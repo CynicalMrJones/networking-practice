@@ -60,7 +60,7 @@ int main(){
 
         //command parsing
         if (atoi(command) == 1){
-            char *message = get_stats();
+            char *message = get_stats("/");
             send(new_socket, message, strlen(message), 0);
             fprintf(fptr, "Served one client\n");
             free(message);
@@ -75,9 +75,8 @@ int main(){
             close(socketfd);
             break;
         }
-        else{
+        else {
             fprintf(fptr, "Invalid command number\n");
-            fprintf(fptr, "\n");
             close(new_socket);
         }
     }
