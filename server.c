@@ -5,6 +5,7 @@
 #include <string.h>
 #include <netinet/in.h>
 #include <unistd.h>
+#include <arpa/inet.h>
 #include <sys/statvfs.h>
 #include "lib/stats.h"
 
@@ -51,6 +52,8 @@ int main(){
             return -1;
         }
 
+        char *ip = inet_ntoa(client_address.sin_addr);
+
         //message ini
         char command[1];
         char buf2[21] = "Hello, World server 2";
@@ -62,12 +65,12 @@ int main(){
         if (atoi(command) == 1){
             char *message = get_stats("/");
             send(new_socket, message, strlen(message), 0);
-            fprintf(fptr, "Served one client\n");
+            fprintf(fptr, "Served one client from IP adress: %s\n", ip);
             free(message);
         }
         else if(atoi(command) == 2){
             send(new_socket, buf2, 21, 0);
-            fprintf(fptr, "Served one client\n");
+            fprintf(fptr, "Served one client from IP adress: %s\n", ip);
         }
         else if(atoi(command) == 3){
             fprintf(fptr, "Closing server\n");
@@ -76,6 +79,7 @@ int main(){
             break;
         }
         else {
+            fprintf(fptr, "Served one client from IP adress: %s\n", ip);
             fprintf(fptr, "Invalid command number\n");
             close(new_socket);
         }

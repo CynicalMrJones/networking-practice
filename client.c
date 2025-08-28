@@ -41,9 +41,6 @@ int main(int argc, char** argv){
         perror("Failed to recieve\n");
         return -1;
     }
-    else{
-        printf("%d\n", recieve);
-    }
     buf[recieve] = '\0';
     printf("%s\n", buf);
     close(sock);
