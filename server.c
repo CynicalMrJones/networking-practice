@@ -55,24 +55,25 @@ int main(){
         char *ip = inet_ntoa(client_address.sin_addr);
 
         //message ini
-        char command[1];
+        char command[10];
+        memset(&command, 0, sizeof(command[10]));
         char buf2[21] = "Hello, World server 2";
-        int recieve = recv(new_socket, &command, sizeof(char[1]), 0);
+        int recieve = recv(new_socket, &command, sizeof(char)*10, 0);
         fprintf(fptr, "Recieve code: %d\n", recieve);
-        fprintf(fptr, "Command code: %d\n", atoi(command));
+        fprintf(fptr, "Command code: %s\n", command);
 
         //command parsing
-        if (atoi(command) == 1){
+        if (strcmp(command, "disk") == 0){
             char *message = get_stats("/");
             send(new_socket, message, strlen(message), 0);
             fprintf(fptr, "Served one client from IP adress: %s\n", ip);
             free(message);
         }
-        else if(atoi(command) == 2){
+        else if(strcmp(command, "hello") == 0){
             send(new_socket, buf2, 21, 0);
             fprintf(fptr, "Served one client from IP adress: %s\n", ip);
         }
-        else if(atoi(command) == 3){
+        else if(strcmp(command, "quit") == 0){
             fprintf(fptr, "Closing server\n");
             close(new_socket);
             close(socketfd);
