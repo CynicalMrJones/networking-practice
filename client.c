@@ -35,7 +35,7 @@ int main(int argc, char** argv){
     }
 
     char buf[150];
-    send(sock, argv[1], sizeof(char[1]), 0);
+    send(sock, argv[1], sizeof(char[10]), 0);
     int recieve = recv(sock, buf, sizeof(buf) - 1, 0);
     if (recieve < 0){
         perror("Failed to recieve\n");
