@@ -63,11 +63,14 @@ int main(){
         fprintf(fptr, "Command code: %s\n", command);
 
         //command parsing
-        if (strcmp(command, "disk") == 0){
+        if (strcmp(command, "stats") == 0){
             char *message = get_stats("/");
+            char *temp = get_temp();
+            strcat(message, temp);
             send(new_socket, message, strlen(message), 0);
             fprintf(fptr, "Served one client from IP adress: %s\n", ip);
             free(message);
+            free(temp);
         }
         else if(strcmp(command, "hello") == 0){
             send(new_socket, buf2, 21, 0);
