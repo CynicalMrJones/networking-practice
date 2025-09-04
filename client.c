@@ -34,7 +34,7 @@ int main(int argc, char** argv){
         return -1;
     }
 
-    char buf[150];
+    char buf[500];
     send(sock, argv[1], sizeof(char[10]), 0);
     int recieve = recv(sock, buf, sizeof(buf) - 1, 0);
     if (recieve < 0){
