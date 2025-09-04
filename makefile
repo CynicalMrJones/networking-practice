@@ -1,9 +1,13 @@
 
 all: client server
+clean:
+	rm server client
 server:
-	gcc -o server server.c lib/stats.c -Wall -Wextra
+	gcc -g -o server server.c lib/stats.c -Wall -Wextra
 
 client:
 	gcc -o client client.c -Wall -Wextra
-clean:
-	rm server client
+
+release:
+	gcc -o server server.c lib/stats.c
+	gcc -o client client.c
