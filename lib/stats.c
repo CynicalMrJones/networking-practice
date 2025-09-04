@@ -1,6 +1,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <sys/statvfs.h>
 #include <math.h>
 char *get_stats(char *path){
@@ -23,8 +24,8 @@ char *get_temp(){
 
     FILE *temperature = fopen("/sys/class/thermal/thermal_zone0/temp", "r");
     if (temperature == NULL){
-        char *test = "Not Found";
-        return test;
+        strcpy(message, "CPU TEMP NOT FOUND");
+        return message;
     }
     fscanf(temperature, "%f", &mili);
     fclose(temperature);
