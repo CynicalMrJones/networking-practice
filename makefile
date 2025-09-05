@@ -11,3 +11,4 @@ client:
 release:
 	gcc -o server server.c lib/stats.c
 	gcc -o client client.c
+	strip server client
