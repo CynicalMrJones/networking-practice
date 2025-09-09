@@ -57,9 +57,7 @@ int main(){
         //message ini
         char command[10];
         memset(&command, 0, sizeof(command[10]));
-        char buf2[21] = "Hello, World server 2";
-        int recieve = recv(new_socket, &command, sizeof(char)*10, 0);
-        fprintf(fptr, "Recieve code: %d\n", recieve);
+        recv(new_socket, &command, sizeof(char)*10, 0);
         fprintf(fptr, "Command code: %s\n", command);
 
         //command parsing
@@ -68,22 +66,23 @@ int main(){
             char *temp = get_temp();
             strcat(message, temp);
             send(new_socket, message, strlen(message), 0);
-            fprintf(fptr, "Served one client from IP adress: %s\n", ip);
+            fprintf(fptr, "Served one client from IP adress: %s\n\n", ip);
             free(message);
             free(temp);
         }
-        else if(strcmp(command, "hello") == 0){
-            send(new_socket, buf2, 21, 0);
-            fprintf(fptr, "Served one client from IP adress: %s\n", ip);
+        else if(strcmp(command, "ip") == 0){
+            send(new_socket, ip, strlen(ip), 0);
+            fprintf(fptr, "Served one client from IP adress: %s\n\n", ip);
         }
         else if(strcmp(command, "quit") == 0){
+            fprintf(fptr, "Served one client from IP adress: %s\n", ip);
             fprintf(fptr, "Closing server\n");
             close(new_socket);
             close(socketfd);
             break;
         }
         else {
-            fprintf(fptr, "Served one client from IP adress: %s\n", ip);
+            fprintf(fptr, "Served one client from IP adress: %s\n\n", ip);
             fprintf(fptr, "Invalid command number\n");
             close(new_socket);
         }
