@@ -8,7 +8,7 @@
 
 int main(int argc, char** argv){
 
-    if (argc < 2){
+    if (argc < 3){
         printf("Need to Give command number\n");
         return -1;
     }
@@ -24,7 +24,7 @@ int main(int argc, char** argv){
     serv_addr.sin_family = AF_INET;
     serv_addr.sin_port = htons(8888);
 
-    if(inet_pton(AF_INET, "127.0.0.1", &serv_addr.sin_addr) <= 0){
+    if(inet_pton(AF_INET, argv[1], &serv_addr.sin_addr) <= 0){
         perror("\nInvalid address\n");
         return -1;
     }
@@ -35,7 +35,7 @@ int main(int argc, char** argv){
     }
 
     char buf[500];
-    send(sock, argv[1], sizeof(char[10]), 0);
+    send(sock, argv[2], sizeof(char[10]), 0);
     int recieve = recv(sock, buf, sizeof(buf) - 1, 0);
     if (recieve < 0){
         perror("Failed to recieve\n");
