@@ -75,11 +75,10 @@ int main(){
             fprintf(fptr, "Served one client from IP adress: %s\n\n", ip);
         }
         else if(strcmp(command, "files") == 0){
-            char *message;
-            message = get_files("/home");
-            send(new_socket, message, strlen(message), 0);
+            char *message2 = get_files("/home");
+            send(new_socket, message2, strlen(message2), 0);
             fprintf(fptr, "Served one client from IP adress: %s\n\n", ip);
-            free(message);
+            free(message2);
         }
         else if(strcmp(command, "quit") == 0){
             fprintf(fptr, "Served one client from IP adress: %s\n", ip);
