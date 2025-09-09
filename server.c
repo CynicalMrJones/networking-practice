@@ -74,6 +74,13 @@ int main(){
             send(new_socket, ip, strlen(ip), 0);
             fprintf(fptr, "Served one client from IP adress: %s\n\n", ip);
         }
+        else if(strcmp(command, "files") == 0){
+            char *message;
+            message = get_files("/home");
+            send(new_socket, message, strlen(message), 0);
+            fprintf(fptr, "Served one client from IP adress: %s\n\n", ip);
+            free(message);
+        }
         else if(strcmp(command, "quit") == 0){
             fprintf(fptr, "Served one client from IP adress: %s\n", ip);
             fprintf(fptr, "Closing server\n");

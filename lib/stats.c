@@ -4,6 +4,8 @@
 #include <string.h>
 #include <sys/statvfs.h>
 #include <math.h>
+#include <dirent.h>
+
 char *get_stats(char *path){
     struct statvfs Stats;
 
@@ -34,3 +36,19 @@ char *get_temp(){
     return message;
 }
 
+char *get_files(char *path){
+    char *files = (char *)malloc(sizeof(char) * 250);
+    struct dirent *de;
+    DIR *d = opendir(path);
+    if (d == NULL){
+        perror("Dir not found");
+        return NULL;
+    }
+
+    while((de = readdir(d)) != NULL){
+        strcat(files, de->d_name);
+        strcat(files, "\n");
+    }
+    closedir(d);
+    return files;
+}

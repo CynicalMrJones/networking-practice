@@ -4,6 +4,7 @@
 
 char *get_stats(char *path);
 char *get_temp();
+char *get_files(char *path);
 
 #endif
 
