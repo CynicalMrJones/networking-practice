@@ -37,7 +37,7 @@ char *get_temp(){
 }
 
 char *get_files(char *path){
-    char *files = (char *)malloc(sizeof(char) * 250);
+    char *files = (char *)malloc(sizeof(char) * 500);
     files[0] = '\0';
     struct dirent *de;
     DIR *d = opendir(path);

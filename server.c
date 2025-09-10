@@ -75,7 +75,11 @@ int main(){
             fprintf(fptr, "Served one client from IP adress: %s\n\n", ip);
         }
         else if(strcmp(command, "files") == 0){
-            char *message2 = get_files("/home");
+            char *message2 = get_files("/home/juicy/Documents");
+            if (message2 == NULL){
+                send(new_socket, "No such directory", 17, 0);
+                break;
+            }
             send(new_socket, message2, strlen(message2), 0);
             fprintf(fptr, "Served one client from IP adress: %s\n\n", ip);
             free(message2);
