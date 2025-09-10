@@ -47,8 +47,10 @@ char *get_files(char *path){
     }
 
     while((de = readdir(d)) != NULL){
-        strcat(files, de->d_name);
-        strcat(files, "\n");
+        if(de->d_name[0] != '.'){
+            strcat(files, de->d_name);
+            strcat(files, "\n");
+        }
     }
     closedir(d);
     return files;
