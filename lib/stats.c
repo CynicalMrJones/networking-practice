@@ -37,7 +37,9 @@ char *get_temp(){
 }
 
 char *get_files(char *path){
-    char *files = (char *)malloc(sizeof(char) * 500);
+    int bufsize = 100;
+    int used = 0;
+    char *files = (char *)malloc(sizeof(char) * bufsize);
     files[0] = '\0';
     struct dirent *de;
     DIR *d = opendir(path);
@@ -50,6 +52,18 @@ char *get_files(char *path){
         if(de->d_name[0] != '.'){
             strcat(files, de->d_name);
             strcat(files, "\n");
+            // printf("%s\n", de->d_name);
+            used = used + strlen(de->d_name) + 2;
+            printf("used = %d\n", used);
+        }
+        if(used >= 100){
+            char *newptr = (char *)realloc(files, sizeof(char) * (used + bufsize));
+            if (newptr == NULL){
+                printf("Ran out of MEM\n");
+                closedir(d);
+                return files;
+            }
+            files = newptr;
         }
     }
     closedir(d);
