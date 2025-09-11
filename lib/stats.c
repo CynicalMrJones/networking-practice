@@ -8,11 +8,12 @@
 
 char *get_stats(char *path){
     struct statvfs Stats;
+    char *message = (char *)malloc(sizeof(char) * 200);
 
     if(statvfs(path, &Stats) == -1){
-        printf("Failed to get stats\n");
+        strcpy(message, "Path does not exsist");
+        return message;
     }
-    char *message = (char *)malloc(sizeof(char) * 200);
     long gib = pow(1024, 3);
     long total_GiB = (Stats.f_bavail * Stats.f_frsize) / gib;
     sprintf(message, "Path: %s\nAvaliable Free Blocks: %ld\nTotal avaliable: %ld(GiB)\n", path, Stats.f_bavail, total_GiB);
@@ -52,9 +53,7 @@ char *get_files(char *path){
         if(de->d_name[0] != '.'){
             strcat(files, de->d_name);
             strcat(files, "\n");
-            // printf("%s\n", de->d_name);
             used = used + strlen(de->d_name) + 2;
-            printf("used = %d\n", used);
         }
         if(used >= 100){
             char *newptr = (char *)realloc(files, sizeof(char) * (used + bufsize));
