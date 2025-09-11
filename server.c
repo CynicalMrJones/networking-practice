@@ -11,18 +11,21 @@
 
 
 int main(){
+    //File creation and opening 
     FILE *fptr;
     fptr = fopen("server.log", "a+");
     if (fptr == NULL) {
         perror("Failed to open file\n");
     }
 
+    //socket creation
     int socketfd = socket(AF_INET, SOCK_STREAM, 0);
     if(socketfd == -1){
         perror("Could not create socket\n");
         return -1;
     }
 
+    //creating an address space
     struct sockaddr_in address;
     memset(&address, 0, sizeof(address));
     address.sin_family = AF_INET;
@@ -43,6 +46,7 @@ int main(){
 
         fprintf(fptr, "Now Accepting new connections\n");
 
+        //accepting client address
         struct sockaddr_in client_address;
         socklen_t client_len = sizeof(client_address);
         int new_socket = accept(socketfd, (struct sockaddr *)&client_address, &client_len);
@@ -52,6 +56,7 @@ int main(){
             return -1;
         }
 
+        //getting ip of client in human readable text
         char *ip = inet_ntoa(client_address.sin_addr);
 
         //message ini
