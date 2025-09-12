@@ -37,6 +37,10 @@ char *get_temp(){
     return message;
 }
 
+/*
+ * BUG: Sometimes get_files does not return the whole list. Look at how 
+ * the realloc is behaving. 
+ */
 char *get_files(char *path){
     int bufsize = 100;
     int used = 0;
