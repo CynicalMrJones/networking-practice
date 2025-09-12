@@ -97,8 +97,10 @@ int main(){
             break;
         }
         else {
+            char *help = "stats: Returns the harddrive space and CPU temp\n\nip: Returns the IP address of the client\n\nfiles: Returns the files in a directory\n\nquit: Kills the server\n";
             fprintf(fptr, "Served one client from IP adress: %s\n\n", ip);
             fprintf(fptr, "Invalid command number\n");
+            send(new_socket, help, strlen(help), 0);
             close(new_socket);
         }
     }
