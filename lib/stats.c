@@ -42,7 +42,7 @@ char *get_temp(){
  * the realloc is behaving. 
  */
 char *get_files(char *path){
-    int bufsize = 100;
+    int bufsize = 300;
     int used = 0;
     char *files = (char *)malloc(sizeof(char) * bufsize);
     files[0] = '\0';
