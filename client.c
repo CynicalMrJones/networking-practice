@@ -1,5 +1,6 @@
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <unistd.h>
@@ -34,14 +35,14 @@ int main(int argc, char** argv){
         return -1;
     }
 
-    char buf[10000];
+    //Get buf size
+    int value;
     send(sock, argv[2], sizeof(char[10]), 0);
-    int recieve = recv(sock, buf, sizeof(buf) - 1, 0);
-    if (recieve < 0){
-        perror("Failed to recieve\n");
-        return -1;
-    }
-    buf[recieve] = '\0';
+    recv(sock, &value, sizeof(value), 0);
+    //Allocate memory for buffer
+    char *buf = (char *)malloc(sizeof(char) * ntohl(value));
+    recv(sock, buf, ntohl(value), 0);
     printf("%s\n", buf);
+    free(buf);
     close(sock);
 }
