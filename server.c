@@ -70,21 +70,33 @@ int main(){
             char *message = get_stats("/");
             char *temp = get_temp();
             strcat(message, temp);
+            //Send len of message
+            int len = htonl(strlen(message));
+            send(new_socket, &len, sizeof(len), 0);
+            //Send Message
             send(new_socket, message, strlen(message), 0);
             fprintf(fptr, "Served one client from IP adress: %s\n\n", ip);
             free(message);
             free(temp);
         }
         else if(strcmp(command, "ip") == 0){
+            //Send len of message
+            int len = htonl(strlen(ip));
+            send(new_socket, &len, sizeof(len), 0);
+            //Send Message
             send(new_socket, ip, strlen(ip), 0);
             fprintf(fptr, "Served one client from IP adress: %s\n\n", ip);
         }
         else if(strcmp(command, "files") == 0){
-            char *message2 = get_files("/home/juicy/Documents");
+            char *message2 = get_files("/home/juicy/Documents/test_folder");
             if (message2 == NULL){
                 send(new_socket, "No such directory", 17, 0);
                 break;
             }
+            //Send len of message
+            int len = htonl(strlen(message2));
+            send(new_socket, &len, sizeof(len), 0);
+            //Send the message
             send(new_socket, message2, strlen(message2), 0);
             fprintf(fptr, "Served one client from IP adress: %s\n\n", ip);
             free(message2);
@@ -98,8 +110,12 @@ int main(){
         }
         else {
             char *help = "stats: Returns the harddrive space and CPU temp\n\nip: Returns the IP address of the client\n\nfiles: Returns the files in a directory\n\nquit: Kills the server\n";
+            //Send len of message
+            int len = htonl(strlen(help));
+            send(new_socket, &len, sizeof(len), 0);
             fprintf(fptr, "Served one client from IP adress: %s\n\n", ip);
             fprintf(fptr, "Invalid command number\n");
+            //Send Message
             send(new_socket, help, strlen(help), 0);
             close(new_socket);
         }
