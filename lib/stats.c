@@ -50,7 +50,7 @@ char *get_files(char *path){
     DIR *d = opendir(path);
     if (d == NULL){
         perror("Dir not found");
-        strcpy("Dir not found", files);
+        strcat(files, "Dir Not Found");
         return files;
     }
 
