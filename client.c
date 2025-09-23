@@ -41,8 +41,17 @@ int main(int argc, char** argv){
     recv(sock, &value, sizeof(value), 0);
     //Allocate memory for buffer
     char *buf = (char *)malloc(sizeof(char) * ntohl(value));
-    recv(sock, buf, ntohl(value), 0);
+    buf[0] = '\0';
+    int total = 0;
+    int bytes = 0;
+    do{
+        bytes = recv(sock, buf, ntohl(value), 0);
+        total += bytes;
+        printf("%d\n", bytes);
+    } while(total < ntohl(value));
+    buf[total - 1] = '\0';
     printf("%s\n", buf);
+    printf("%d\n", total);
     free(buf);
     close(sock);
 }

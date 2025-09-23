@@ -57,7 +57,7 @@ char *get_files(char *path){
         if(de->d_name[0] != '.'){
             strcat(files, de->d_name);
             strcat(files, "\n");
-            used = used + strlen(de->d_name) + 2;
+            used = used + strlen(de->d_name) + 10;
         }
         if(used >= 100){
             char *newptr = (char *)realloc(files, sizeof(char) * (used + bufsize));
