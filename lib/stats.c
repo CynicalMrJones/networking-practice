@@ -45,13 +45,13 @@ char *get_files(char *path){
     int bufsize = 300;
     int used = 0;
     char *files = (char *)malloc(sizeof(char) * bufsize);
-    char *error = "Dir not Found";
     files[0] = '\0';
     struct dirent *de;
     DIR *d = opendir(path);
     if (d == NULL){
         perror("Dir not found");
-        return error;
+        strcpy("Dir not found", files);
+        return files;
     }
 
     while((de = readdir(d)) != NULL){
