@@ -49,7 +49,6 @@ int main(int argc, char** argv){
         total += bytes;
         printf("%d\n", bytes);
     } while(total < ntohl(value));
-    buf[total - 1] = '\0';
     printf("%s\n", buf);
     printf("%d\n", total);
     free(buf);
