@@ -45,12 +45,10 @@ int main(int argc, char** argv){
     int total = 0;
     int bytes = 0;
     do{
-        bytes = recv(sock, buf, ntohl(value), 0);
+        bytes = recv(sock, buf + total, ntohl(value) - total, 0);
         total += bytes;
-        printf("%d\n", bytes);
     } while(total < ntohl(value));
     printf("%s\n", buf);
-    printf("%d\n", total);
     free(buf);
     close(sock);
 }
