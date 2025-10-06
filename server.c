@@ -104,6 +104,8 @@ int main(){
         else if(strcmp(command, "quit") == 0){
             fprintf(fptr, "Served one client from IP adress: %s\n", ip);
             fprintf(fptr, "Closing server\n");
+            int len = htonl(1);
+            send(new_socket, &len, 1, 0);
             close(new_socket);
             close(socketfd);
             break;

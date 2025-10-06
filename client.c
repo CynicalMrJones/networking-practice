@@ -40,6 +40,9 @@ int main(int argc, char** argv){
     send(sock, argv[2], sizeof(char[10]), 0);
     recv(sock, &value, sizeof(value), 0);
     //Allocate memory for buffer
+    if (ntohl(value) == 1){
+        return 0;
+    }
     char *buf = (char *)malloc(sizeof(char) * ntohl(value));
     buf[0] = '\0';
     int total = 0;
