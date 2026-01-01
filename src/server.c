@@ -7,7 +7,7 @@
 #include <unistd.h>
 #include <arpa/inet.h>
 #include <sys/statvfs.h>
-#include "lib/stats.h"
+#include "../lib/stats.h"
 
 
 int main(){

@@ -1,16 +1,16 @@
 
 all: client server
 clean:
-	rm server client
+	rm build/server build/client
 server:
-	gcc -g -o server server.c lib/stats.c -Wall -Wextra
+	gcc -g -o build/server src/server.c lib/stats.c -Wall -Wextra
 
 client:
-	gcc -o client client.c -Wall -Wextra
+	gcc -o build/client src/client.c -Wall -Wextra
 
 install: 
-	gcc -o server server.c lib/stats.c
-	gcc -o client client.c
+	gcc -o server src/server.c lib/stats.c
+	gcc -o client src/client.c
 	strip server client
 	sudo mv client server /usr/bin
 uninstall:
