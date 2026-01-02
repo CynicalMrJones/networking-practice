@@ -6,7 +6,7 @@ server:
 	gcc -g -o build/server src/server.c lib/stats.c -Wall -Wextra
 
 client:
-	gcc -o build/client src/client.c -Wall -Wextra
+	gcc -o build/client src/client.c lib/stats.c -Wall -Wextra
 
 install: 
 	gcc -o server src/server.c lib/stats.c

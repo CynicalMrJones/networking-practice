@@ -5,6 +5,7 @@
 char *get_stats(char *path);
 char *get_temp();
 char *get_files(char *path);
+void errorprint(char *message);
 
 #endif
 

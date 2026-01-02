@@ -6,6 +6,10 @@
 #include <math.h>
 #include <dirent.h>
 
+void errorprint(char *message){
+    printf("[ERROR]: %s", message);
+}
+
 char *get_stats(char *path){
     struct statvfs Stats;
     char *message = (char *)malloc(sizeof(char) * 200);
@@ -45,7 +49,7 @@ char *get_files(char *path){
     struct dirent *de;
     DIR *d = opendir(path);
     if (d == NULL){
-        perror("Dir not found");
+        errorprint("Dir not found\n");
         strcat(files, "Dir Not Found");
         return files;
     }
@@ -59,7 +63,7 @@ char *get_files(char *path){
         if(used >= 100){
             char *newptr = (char *)realloc(files, sizeof(char) * (used + bufsize));
             if (newptr == NULL){
-                printf("Ran out of MEM\n");
+                errorprint("Ran out of MEM\n");
                 closedir(d);
                 return files;
             }
@@ -69,3 +73,4 @@ char *get_files(char *path){
     closedir(d);
     return files;
 }
+

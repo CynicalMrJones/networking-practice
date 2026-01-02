@@ -15,13 +15,13 @@ int main(){
     FILE *fptr;
     fptr = fopen("server.log", "a+");
     if (fptr == NULL) {
-        perror("Failed to open file\n");
+        errorprint("Failed to open file\n");
     }
 
     //socket creation
     int socketfd = socket(AF_INET, SOCK_STREAM, 0);
     if(socketfd == -1){
-        perror("Could not create socket\n");
+        errorprint("Could not create socket\n");
         return -1;
     }
 
@@ -33,18 +33,18 @@ int main(){
     address.sin_port = htons(8888);
 
     if (bind(socketfd, (struct sockaddr*)&address, sizeof(address)) < 0){
-        perror("whoops couldn't bind\n");
+        errorprint("whoops couldn't bind\n");
         return -1;
     }
 
     if (listen(socketfd, 5) < 0){
-        perror("Could not listen\n");
+        errorprint("Could not listen\n");
         return -1;
     }
 
     while(1){
 
-        fprintf(fptr, "Now Accepting new connections\n");
+        fprintf(fptr, "[INFO]: Now Accepting new connections\n");
 
         //accepting client address
         struct sockaddr_in client_address;
@@ -63,7 +63,7 @@ int main(){
         char command[10];
         memset(&command, 0, sizeof(command[10]));
         recv(new_socket, &command, sizeof(char)*10, 0);
-        fprintf(fptr, "Command code: %s\n", command);
+        fprintf(fptr, "[INFO]: Command code: %s\n", command);
 
         //command parsing
         if (strcmp(command, "stats") == 0){
@@ -75,7 +75,7 @@ int main(){
             send(new_socket, &len, sizeof(len), 0);
             //Send Message
             send(new_socket, message, strlen(message), 0);
-            fprintf(fptr, "Served one client from IP adress: %s\n\n", ip);
+            fprintf(fptr, "[INFO]: Served one client from IP adress: %s\n\n", ip);
             free(message);
             free(temp);
         }
@@ -85,7 +85,7 @@ int main(){
             send(new_socket, &len, sizeof(len), 0);
             //Send Message
             send(new_socket, ip, strlen(ip), 0);
-            fprintf(fptr, "Served one client from IP adress: %s\n\n", ip);
+            fprintf(fptr, "[INFO]: Served one client from IP adress: %s\n\n", ip);
         }
         else if(strcmp(command, "files") == 0){
             char *message2 = get_files("/home/juicy/Documents/test_folder");
@@ -98,12 +98,12 @@ int main(){
             send(new_socket, &len, sizeof(len), 0);
             //Send the message
             send(new_socket, message2, strlen(message2), 0);
-            fprintf(fptr, "Served one client from IP adress: %s\n\n", ip);
+            fprintf(fptr, "[INFO]: Served one client from IP adress: %s\n\n", ip);
             free(message2);
         }
         else if(strcmp(command, "quit") == 0){
-            fprintf(fptr, "Served one client from IP adress: %s\n", ip);
-            fprintf(fptr, "Closing server\n");
+            fprintf(fptr, "[INFO]: Served one client from IP adress: %s\n", ip);
+            fprintf(fptr, "[INFO]: Closing server\n");
             int len = htonl(1);
             send(new_socket, &len, 1, 0);
             close(new_socket);
@@ -115,8 +115,8 @@ int main(){
             //Send len of message
             int len = htonl(strlen(help));
             send(new_socket, &len, sizeof(len), 0);
-            fprintf(fptr, "Served one client from IP adress: %s\n\n", ip);
-            fprintf(fptr, "Invalid command number\n");
+            fprintf(fptr, "[INFO]: Served one client from IP adress: %s\n\n", ip);
+            fprintf(fptr, "[ERROR]: Invalid command number\n");
             //Send Message
             send(new_socket, help, strlen(help), 0);
             close(new_socket);

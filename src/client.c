@@ -5,12 +5,13 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <string.h>
+#include "../lib/stats.h"
 
 
 int main(int argc, char** argv){
 
     if (argc < 3){
-        printf("Need to Give command number\n");
+        errorprint("Need to Give command number\n");
         return -1;
     }
     
@@ -18,7 +19,7 @@ int main(int argc, char** argv){
     struct sockaddr_in serv_addr;
 
     if((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0){
-        printf("\nSocket failed to create\n");
+        errorprint("\nSocket failed to create\n");
         return -1;
     }
     memset(&serv_addr, 0, sizeof(serv_addr));
@@ -26,12 +27,12 @@ int main(int argc, char** argv){
     serv_addr.sin_port = htons(8888);
 
     if(inet_pton(AF_INET, argv[1], &serv_addr.sin_addr) <= 0){
-        perror("\nInvalid address\n");
+        errorprint("\nInvalid address\n");
         return -1;
     }
 
     if(connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0){
-        perror("\nConnection failed\n");
+        errorprint("\nConnection failed\n");
         return -1;
     }
 
